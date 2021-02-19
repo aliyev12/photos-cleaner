@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World!</title>
+    <!-- <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    /> -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body style="background: rgb(29, 29, 29)">
+    <div class="user-selection">
+      <form action="POST" id="user-selection-form">
+        <label>
+          Choose directory
+          <input
+            type="file"
+            name="directory"
+            id="directory-input"
+            webkitdirectory
+            multiple
+          />
+        </label>
+        <button>Submit</button>
+      </form>
+    </div>
+    <ul id="list"></ul>
+    <!-- <script src="./dist/heic2any.js"></script> -->
+    <script src="js/index.js"></script>
+  </body>
+</html>
