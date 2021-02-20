@@ -1,0 +1,41 @@
+// single line if statements: 
+{#if true}yes{:else}no{/if}
+
+// multi line if statements 
+{#if true}
+<p>Some text</p>
+{/if} 
+
+// if else multi line
+{#if true}
+<p>Is true</p>
+{:else}
+<p>Is not true</p>
+{/if}
+
+// Loop
+{#each items as item}
+<Item item={item} />
+{/each}
+
+// bind value to input
+import { createEventDispatcher } from 'svelte';
+const dispatch = createEventDispatcher();
+
+let player = {
+    name: ''
+}
+
+<form on:submit={(e) => {
+    e.preventDefault();
+    dispatch('addplayer', player);
+    player.name = '';
+}} >
+    <input bind:value={player.name}/>
+</form>
+<div on:addplayer={(e) => {
+    const newPlayer = e.detail;
+    players = [...players, newPlayer]
+}}>
+something
+</div>
