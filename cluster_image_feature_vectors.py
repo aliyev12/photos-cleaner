@@ -33,6 +33,12 @@ from scipy import spatial
 #################################################
 
 
+def log_message(msg):
+    file_object = open('logs.txt', 'a')
+    file_object.write(msg)
+    file_object.close()
+
+
 def match_id(file_id):
     with open('./mapper.json') as json_file:
         for file in json_file:
@@ -54,6 +60,12 @@ def match_id(file_id):
 
 
 def cluster():
+    log_message('fired cluster() \n')
+    file_object = open('logs.txt', 'a')
+    # Append 'hello' at the end of file
+    file_object.write('cluster fired  ...  ')
+    # Close the file
+    file_object.close()
     # start_time = time.time()
     # Defining data structures as empty dict
     file_index_to_file_name = {}
@@ -154,6 +166,9 @@ def cluster():
     # print("similarity_sets = %s" % similarity_sets)
     # print("#########################################")
 
+    with open('similarities.json', 'w') as out:
+        json.dump(similarities_arr, out)
+
     # Writes the 'named_nearest_neighbors' to a json file
     with open('nearest_neighbors.json', 'w') as out:
         json.dump(named_nearest_neighbors, out)
@@ -170,8 +185,11 @@ def cluster():
 
         with open('mapper.json', 'w'):
             pass
+        # with open('similarities.json', 'w'):
+        #     pass
     print(json.dumps(similarities_arr))
     return similarity_sets
+
 
 if __name__ == "__main__":
     cluster()

@@ -1,12 +1,19 @@
 <script>
   import mainController from "./mainController.js";
-  import { rootFolderPath } from "../../store.js";
+  import { rootFolderPath, similarities } from "../../store.js";
 
   $: console.log("rootPath = ", $rootFolderPath);
+  $: console.log("similarities = ", $similarities);
 </script>
 
 <main>
-  <form action="#" method="POST">
+  <form
+    method="POST"
+    on:submit={(e) => {
+      e.preventDefault();
+      mainController.findImageSimilarities();
+    }}
+  >
     <div class="shadow sm:rounded-md sm:overflow-hidden m-5">
       <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
         <div>

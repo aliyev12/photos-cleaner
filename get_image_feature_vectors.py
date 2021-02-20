@@ -58,15 +58,25 @@ def load_img(path):
 # Stopped here. Need to figure out a way to send the similarity sets to node. Also, forwat the sets in the desired format before...
 
 
+def log_message(msg):
+    file_object = open('logs.txt', 'a')
+    file_object.write(msg)
+    file_object.close()
+
+
 def get_image_feature_vectors(basePath='/Users/abdulaliyev/web-projects/del/imgs/2/*.jpg'):
+    log_message('get_image_feature_vectors in python fired  ...  \n')
+
     i = 0
     # start_time = time.time()
 
     # Definition of module with using tfhub.dev handle
-    module_handle = "https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/feature_vector/4"
+    # module_handle = "https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/feature_vector/4"
+    module_handle = "./imagenet_mobilenet_v2_140_224_feature_vector_4"
 
     # Load the module
     module = hub.load(module_handle)
+    log_message('77 module = hub.load(module_handle) \n')
 
     mapped_data = []
 
@@ -102,10 +112,11 @@ def get_image_feature_vectors(basePath='/Users/abdulaliyev/web-projects/del/imgs
         # Saves the 'feature_set' to a text file
         np.savetxt(out_path, feature_set, delimiter=',')
 
+    log_message('115 ready to open(mapper.json \n')
     # Writes the 'named_nearest_neighbors' to a json file
     with open('mapper.json', 'w') as out:
         json.dump(mapped_data, out)
-        print("done in get_image_feature_vectors")
+        log_message('119 done dumping mapper.json \n')
 
 
 if __name__ == "__main__":
