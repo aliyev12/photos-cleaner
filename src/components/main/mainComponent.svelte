@@ -1,9 +1,24 @@
 <script>
-  import mainController from "./mainController.js";
+  const { ipcRenderer } = require("electron");
+  // import mainController from "./mainController.js";
   import { rootFolderPath, similarities } from "../../store.js";
+  // import { createEventDispatcher } from "svelte";
+  // const dispatch = createEventDispatcher();
 
   $: console.log("rootPath = ", $rootFolderPath);
-  $: console.log("similarities = ", $similarities);
+  $: console.log("similarities from store = ", $similarities);
+
+  ipcRenderer.on("similarities_analysis_completed", (e, newSimilarities) => {
+    similarities.set(newSimilarities);
+  });
+
+  // const doStuff = async () => {
+  //   const request = await fetch("http://localhost:4242");
+  //   const response = await request.json();
+
+  //   console.log("response = ", response);
+  //   something_ = response.msg;
+  // };
 </script>
 
 <main>
@@ -11,7 +26,7 @@
     method="POST"
     on:submit={(e) => {
       e.preventDefault();
-      mainController.findImageSimilarities();
+      ipcRenderer.send("runsimilarities", "hi");
     }}
   >
     <div class="shadow sm:rounded-md sm:overflow-hidden m-5">
@@ -20,6 +35,7 @@
           <label for="about" class="block text-sm font-medium text-gray-700">
             Root Path
           </label>
+
           <div class="mt-1">
             <input
               bind:value={$rootFolderPath}
@@ -46,4 +62,18 @@
       </div>
     </div>
   </form>
+
+  <div>
+    {#each $similarities as groupOfImages}
+      <div class="flex flex-row">
+        {#each groupOfImages as image}
+          <div class="flex flex-row">
+            {JSON.stringify(groupOfImages)}
+            <img width="200" src="file://{image}" alt="got you" />
+            <p>{image}</p>
+          </div>
+        {/each}
+      </div>
+    {/each}
+  </div>
 </main>

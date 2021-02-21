@@ -165,9 +165,12 @@ def cluster():
     # print("already_checked = %s" % already_checked)
     # print("similarity_sets = %s" % similarity_sets)
     # print("#########################################")
-
+    log_message('ready to json.dumps(similarities_arr \n')
+    print(json.dumps(similarities_arr))
     with open('similarities.json', 'w') as out:
         json.dump(similarities_arr, out)
+
+        # find a reason why this script is not stdOuting...
 
     # Writes the 'named_nearest_neighbors' to a json file
     with open('nearest_neighbors.json', 'w') as out:
@@ -187,7 +190,7 @@ def cluster():
             pass
         # with open('similarities.json', 'w'):
         #     pass
-    print(json.dumps(similarities_arr))
+    # print(json.dumps(similarities_arr))
     return similarity_sets
 
 

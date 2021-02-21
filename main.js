@@ -1,9 +1,13 @@
 // require("electron-reload")(__dirname);
+const fs = require("fs");
 const path = require("path");
+const Similarities = require("./js/Similarities");
+const log = require("simple-node-logger").createSimpleFileLogger("project.log");
 
-require("electron-reload")(__dirname, {
-  electron: path.join(__dirname, "node_modules", ".bin", "electron"),
-});
+// require("electron-reload")(__dirname, {
+//   electron: path.join(__dirname, "node_modules", ".bin", "electron"),
+//   awaitWriteFinish: true,
+// });
 
 // require("electron-reload")(process.cwd(), {
 //   electron: path.join(__dirname, "node_modules", ".bin", "electron.cmd"),
@@ -12,7 +16,16 @@ require("electron-reload")(__dirname, {
 
 // so i replace the __dirname to process.cwd() and it works.
 
-const { app, BrowserWindow, Menu, screen, Tray } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  Menu,
+  screen,
+  Tray,
+  MenuItem,
+  ipcMain,
+  dialog,
+} = require("electron");
 
 app.on("ready", () => {
   appIcon = new Tray("public/favicon.png");
@@ -37,14 +50,31 @@ const createWindow = () => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
 
   window = new BrowserWindow({
-    width: width / 1.25,
-    height: height / 1.25,
+    width: width,
+    height: height,
+    // width: width / 1.25,
+    // height: height / 1.25,
     webPreferences: {
       nodeIntegration: true,
     },
   });
 
-  window.loadFile("public/index.html");
+  window.webContents.openDevTools();
+
+  //Setup Message Listeners
+  ipcMain.on("runsimilarities", (e, content) => {
+    const similarities = new Similarities(window);
+    similarities.getImageFeatureVectors();
+  });
+
+  window.loadFile("./public/index.html");
+
+  // window.on("similarities_analysis_completed", (e, similarImages) => {
+  //   console.log("similarImages = ", similarImages);
+  //   log.info(">>> in similarities_analysis_completed listener main.js 69");
+
+  //   window.webContents.send("receiving_similar_images_list", { similarImages });
+  // });
 
   window.on("minimize", (e) => {
     e.preventDefault();

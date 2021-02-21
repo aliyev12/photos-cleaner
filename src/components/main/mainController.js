@@ -1,12 +1,7 @@
-import Similarities from "../../../js/Similarities";
+import Similarities from "./Similarities";
 
 export default {
-  async findImageSimilarities() {
-    console.log("start getImageFeatureVectors ");
-    const similarities = new Similarities();
-    similarities.getImageFeatureVectors();
-    console.log("end getImageFeatureVectors ");
-  },
+  async findImageSimilarities() {},
 };
 // const cronJob = require("cron").CronJob;
 // const notifier = require("node-notifier");
