@@ -39,3 +39,8 @@ let player = {
 }}>
 something
 </div>
+
+
+
+//TODO
+Style image section of svelte with tailwind nonesense...

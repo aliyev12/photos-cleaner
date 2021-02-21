@@ -28,4 +28,18 @@ module.exports = {
     },
     enabled: isProduction, // disable purge in dev
   },
+  darkMode: "media",
+  variants: {
+    extend: {
+      textOpacity: ["dark"],
+    },
+  },
+  // theme: {
+  //   height: {
+  //    sm: '8px',
+  //    md: '16px',
+  //    lg: '24px',
+  //    xl: '48px',
+  //   }
+  // }
 };

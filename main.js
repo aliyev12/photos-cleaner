@@ -64,6 +64,8 @@ const createWindow = () => {
   //Setup Message Listeners
   ipcMain.on("runsimilarities", (e, content) => {
     const similarities = new Similarities(window);
+    console.log("67 main.js runsimilarities");
+    log.isInfo("67 main.js runsimilarities \n");
     similarities.getImageFeatureVectors();
   });
 

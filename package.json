@@ -12,6 +12,7 @@
     "old_dev": "rollup -c -w",
     "old_start": "electron .",
     "build-start": "rollup -c && electron .",
+    "build-start-watch": "concurrently \"rollup -c -w\" \"electron .\"",
     "start": "concurrently \"npm:svelte-dev\" \"electron-forge start\"",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",

@@ -289,3 +289,37 @@ get_image_feature_vectors in python fired  ...
 119 done dumping mapper.json 
 fired cluster() 
 cluster fired  ...  ready to json.dumps(similarities_arr 
+get_image_feature_vectors in python fired  ...  
+77 module = hub.load(module_handle) 
+fired cluster() 
+cluster fired  ...  ready to json.dumps(similarities_arr 
+get_image_feature_vectors in python fired  ...  
+77 module = hub.load(module_handle) 
+fired cluster() 
+cluster fired  ...  ready to json.dumps(similarities_arr 
+get_image_feature_vectors in python fired  ...  
+77 module = hub.load(module_handle) 
+fired cluster() 
+cluster fired  ...  ready to json.dumps(similarities_arr 
+get_image_feature_vectors in python fired  ...  
+77 module = hub.load(module_handle) 
+fired cluster() 
+cluster fired  ...  ready to json.dumps(similarities_arr 
+get_image_feature_vectors in python fired  ...  
+77 module = hub.load(module_handle) 
+fired cluster() 
+cluster fired  ...  ready to json.dumps(similarities_arr 
+get_image_feature_vectors in python fired  ...  
+77 module = hub.load(module_handle) 
+fired cluster() 
+cluster fired  ...  ready to json.dumps(similarities_arr 
+get_image_feature_vectors in python fired  ...  
+77 module = hub.load(module_handle) 
+fired cluster() 
+cluster fired  ...  ready to json.dumps(similarities_arr 
+get_image_feature_vectors in python fired  ...  
+77 module = hub.load(module_handle) 
+115 ready to open(mapper.json 
+119 done dumping mapper.json 
+fired cluster() 
+cluster fired  ...  ready to json.dumps(similarities_arr 

@@ -15,6 +15,7 @@ class Similarities {
   }
 
   getImageFeatureVectors() {
+    console.log("18 Similarities.js getImageFeatureVectors");
     var dataToSend;
     // spawn new child process to call the python script
     const python = spawn(
@@ -42,6 +43,7 @@ class Similarities {
   }
 
   runCluster() {
+    console.log("46 Similarities.js runCluster");
     var dataToSend;
     // spawn new child process to call the python script
     const python = spawn(
