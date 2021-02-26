@@ -7,6 +7,8 @@
 
 # Numpy for loading image feature vectors from file
 import numpy as np
+from decimal import Decimal
+import sys
 
 # Time for measuring the process time
 import time
@@ -23,6 +25,7 @@ import json
 # Annoy and Scipy for similarity calculation
 from annoy import AnnoyIndex
 from scipy import spatial
+from utils import clear_vectors_dir
 #################################################
 
 #################################################
@@ -59,8 +62,11 @@ def match_id(file_id):
 #################################################
 
 
-def cluster():
-    log_message('fired cluster() \n')
+def cluster(similarity_percentage="0.96"):
+    similarity_percentage = Decimal(similarity_percentage)
+    log_message(
+        f"in cluster and similarity_percentage provided is = {similarity_percentage}\n")
+
     file_object = open('logs.txt', 'a')
     # Append 'hello' at the end of file
     file_object.write('cluster fired  ...  ')
@@ -137,7 +143,7 @@ def cluster():
         if similarity['masterPath'] == similarity['similarPath']:
             continue
 
-        if similarity['similarity'] > 0.85:
+        if similarity['similarity'] > similarity_percentage:
             if similarity['masterPath'] in already_checked or similarity['similarPath'] in already_checked:
                 set_key = already_checked[similarity['masterPath']]
                 new_set = similarity_sets[set_key].copy()
@@ -176,15 +182,16 @@ def cluster():
     with open('nearest_neighbors.json', 'w') as out:
         json.dump(named_nearest_neighbors, out)
 
-        for filename in os.listdir('./vectors'):
-            file_path = os.path.join('./vectors', filename)
-            try:
-                if os.path.isfile(file_path) or os.path.islink(file_path):
-                    os.unlink(file_path)
-                # elif os.path.isdir(file_path):
-                #     shutil.rmtree(file_path)
-            except Exception as e:
-                print('Failed to delete %s. Reason: %s' % (file_path, e))
+        clear_vectors_dir()
+        # for filename in os.listdir('./vectors'):
+        #     file_path = os.path.join('./vectors', filename)
+        #     try:
+        #         if os.path.isfile(file_path) or os.path.islink(file_path):
+        #             os.unlink(file_path)
+        #         # elif os.path.isdir(file_path):
+        #         #     shutil.rmtree(file_path)
+        #     except Exception as e:
+        #         print('Failed to delete %s. Reason: %s' % (file_path, e))
 
         with open('mapper.json', 'w'):
             pass
@@ -195,4 +202,7 @@ def cluster():
 
 
 if __name__ == "__main__":
-    cluster()
+    if (len(sys.argv) >= 2):
+        cluster(sys.argv[1])
+    else:
+        cluster()

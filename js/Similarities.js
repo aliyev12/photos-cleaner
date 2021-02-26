@@ -5,8 +5,9 @@ const { spawn } = require("child_process");
 const log = require("simple-node-logger").createSimpleFileLogger("project.log");
 
 class Similarities {
-  constructor(window) {
+  constructor(window, similarityPercentage) {
     this.window = window;
+    this.similarityPercentage = similarityPercentage;
     this.similarities = [];
   }
 
@@ -26,7 +27,7 @@ class Similarities {
           "/Users/abdulaliyev/web-projects/electron/photos-cleaner",
           "get_image_feature_vectors.py"
         ),
-        "/Users/abdulaliyev/web-projects/del/imgs/2/*.jpg",
+        "/Users/abdulaliyev/web-projects/del/imgs/6",
       ]
     );
     // collect data from script
@@ -54,6 +55,7 @@ class Similarities {
           "/Users/abdulaliyev/web-projects/electron/photos-cleaner",
           "cluster_image_feature_vectors.py"
         ),
+        this.similarityPercentage,
       ]
     );
     // collect data from script

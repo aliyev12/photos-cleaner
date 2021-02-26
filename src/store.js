@@ -1,8 +1,16 @@
 import { writable } from "svelte/store";
 
+export const SimilaritiesStatuses = {
+  initial: "initial",
+  loading: "loading",
+  received: "received",
+};
+
 export const mementoes = writable([]);
-export const similarities = writable(dummyData());
+export const similarities = writable([]);
+export const similarityPercentage = writable(96);
 export const rootFolderPath = writable("hi");
+export const similaritiesStatus = writable(SimilaritiesStatuses.initial);
 
 function dummyData() {
   return [

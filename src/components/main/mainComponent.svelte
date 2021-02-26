@@ -1,15 +1,25 @@
 <script>
   const { ipcRenderer } = require("electron");
   // import mainController from "./mainController.js";
-  import { rootFolderPath, similarities } from "../../store.js";
+  import {
+    rootFolderPath,
+    similarities,
+    SimilaritiesStatuses,
+    similaritiesStatus,
+    similarityPercentage,
+  } from "../../store.js";
+
+  import Spinner from "../utils/spinner.svelte";
   // import { createEventDispatcher } from "svelte";
   // const dispatch = createEventDispatcher();
 
   $: console.log("rootPath = ", $rootFolderPath);
   $: console.log("similarities from store = ", $similarities);
+  $: console.log("similaritiesStatus from store = ", $similaritiesStatus);
 
   ipcRenderer.on("similarities_analysis_completed", (e, newSimilarities) => {
     similarities.set(newSimilarities);
+    similaritiesStatus.set(SimilaritiesStatuses.received);
   });
 
   // const doStuff = async () => {
@@ -27,7 +37,10 @@
     on:submit={(e) => {
       e.preventDefault();
       console.log("29 calling runsimilarities");
-      ipcRenderer.send("runsimilarities", "hii");
+      similaritiesStatus.set(SimilaritiesStatuses.loading);
+      const stringPercentage = ($similarityPercentage / 100).toString();
+      console.log("stringPercentage = ", stringPercentage);
+      ipcRenderer.send("runsimilarities", stringPercentage);
     }}
   >
     <!-- <div class="bg-white dark:bg-gray-800">
@@ -35,10 +48,10 @@
 
     <div class="shadow sm:rounded-md sm:overflow-hidden m-5">
       <div class="px-4 py-5 bg-white dark:bg-gray-800 space-y-6 sm:p-6">
-        <div>
+        <div class="mb-10">
           <label
             for="about"
-            class="block text-2xl text-gray-700 dark:text-white mb-5"
+            class="block text-4xl text-gray-700 dark:text-white mb-5"
           >
             Root Path
           </label>
@@ -57,6 +70,28 @@
             Provide root directory path where to start analyzing photos
           </p>
         </div>
+        <div>
+          <label
+            for="similarity_percentage"
+            class="block text-4xl text-gray-700 dark:text-white mb-5"
+            >Similarity Percentage</label
+          >
+          <div class="mt-1">
+            <input
+              bind:value={$similarityPercentage}
+              id="similarity_percentage"
+              name="similarity_percentage"
+              class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-8 w-full"
+              type="range"
+              min="1"
+              max="100"
+              step="1"
+            />
+          </div>
+          <p class="mt-5 text-2xl text-gray-500 dark:text-white">
+            {$similarityPercentage}%
+          </p>
+        </div>
 
         <div class="px-4 py-3 text-right sm:px-6">
           <button
@@ -69,6 +104,10 @@
       </div>
     </div>
   </form>
+
+  {#if $similaritiesStatus === SimilaritiesStatuses.loading}
+    <Spinner />
+  {/if}
 
   <div class="m-5 mt-12">
     {#each $similarities as groupOfImages, i}
@@ -89,3 +128,18 @@
     {/each}
   </div>
 </main>
+
+<style>
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    input[type="range"]::-webkit-slider-thumb {
+      width: 15px;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 15px;
+      cursor: ew-resize;
+      background: #fff;
+      box-shadow: -405px 0 0 400px #605e5c;
+      border-radius: 50%;
+    }
+  }
+</style>

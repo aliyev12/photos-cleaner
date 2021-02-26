@@ -1,5 +1,8 @@
+// const colors = require("tailwindcss/colors");
+
 // tailwind.config.js
 const isProduction = !process.env.ROLLUP_WATCH; // or some other env var like NODE_ENV
+
 module.exports = {
   // only needed in Tailwind 1.0 for tailwind 2.0 compat
   // future: {
@@ -34,6 +37,13 @@ module.exports = {
       textOpacity: ["dark"],
     },
   },
+  // theme: {
+  //   colors: {
+  //     primary: colors.indigo,
+  //     secondary: colors.yellow,
+  //     neutral: colors.gray,
+  //   },
+  // },
   // theme: {
   //   height: {
   //    sm: '8px',
