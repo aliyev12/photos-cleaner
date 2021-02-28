@@ -22,6 +22,25 @@
     similaritiesStatus.set(SimilaritiesStatuses.received);
   });
 
+  ipcRenderer.on("root_folder_path_received", (e, rootPath) => {
+    rootFolderPath.set(rootPath);
+  });
+
+  // document.getElementById("dirs").addEventListener("click", () => {
+  //   window.postMessage({
+  //     type: "select-dirs",
+  //   });
+  // });
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    console.log("29 calling runsimilarities");
+    similaritiesStatus.set(SimilaritiesStatuses.loading);
+    const stringPercentage = ($similarityPercentage / 100).toString();
+    console.log("stringPercentage = ", stringPercentage);
+    ipcRenderer.send("runsimilarities", $rootFolderPath, stringPercentage);
+  };
+
   // const doStuff = async () => {
   //   const request = await fetch("http://localhost:4242");
   //   const response = await request.json();
@@ -32,20 +51,7 @@
 </script>
 
 <main>
-  <form
-    method="POST"
-    on:submit={(e) => {
-      e.preventDefault();
-      console.log("29 calling runsimilarities");
-      similaritiesStatus.set(SimilaritiesStatuses.loading);
-      const stringPercentage = ($similarityPercentage / 100).toString();
-      console.log("stringPercentage = ", stringPercentage);
-      ipcRenderer.send("runsimilarities", stringPercentage);
-    }}
-  >
-    <!-- <div class="bg-white dark:bg-gray-800">
-    <h1 class="text-gray-900 dark:text-white">Dark mode is here!</h1> -->
-
+  <form method="POST" on:submit={handleFormSubmit}>
     <div class="shadow sm:rounded-md sm:overflow-hidden m-5">
       <div class="px-4 py-5 bg-white dark:bg-gray-800 space-y-6 sm:p-6">
         <div class="mb-10">
@@ -55,14 +61,18 @@
           >
             Root Path
           </label>
-
+          <!--               bind:value={$rootFolderPath}
+ -->
           <div class="mt-1">
             <input
-              bind:value={$rootFolderPath}
-              type="text"
-              name="first_name"
-              id="first_name"
-              autocomplete="given-name"
+              on:click={(e) => {
+                e.preventDefault();
+                window.postMessage({
+                  type: "select-dirs",
+                });
+              }}
+              webkitdirectory
+              type="file"
               class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-2xl border-gray-300 rounded-md px-1"
             />
           </div>
@@ -81,12 +91,22 @@
               bind:value={$similarityPercentage}
               id="similarity_percentage"
               name="similarity_percentage"
-              class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-8 w-full"
+              class="w-full bg-primary-500"
               type="range"
               min="1"
               max="100"
               step="1"
             />
+            <!-- <input
+              bind:value={$similarityPercentage}
+              id="similarity_percentage"
+              name="similarity_percentage"
+              class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-8 w-full"
+              type="range"
+              min="1"
+              max="100"
+              step="1"
+            /> -->
           </div>
           <p class="mt-5 text-2xl text-gray-500 dark:text-white">
             {$similarityPercentage}%
@@ -96,7 +116,7 @@
         <div class="px-4 py-3 text-right sm:px-6">
           <button
             type="submit"
-            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-2xl font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-2xl font-medium rounded-md text-white bg-primary-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Submit
           </button>
@@ -127,19 +147,20 @@
       </div>
     {/each}
   </div>
+  <h1 class="fun">FUN</h1>
 </main>
 
 <style>
   @media screen and (-webkit-min-device-pixel-ratio: 0) {
     input[type="range"]::-webkit-slider-thumb {
-      width: 15px;
+      /* width: 15px;
       -webkit-appearance: none;
       appearance: none;
       height: 15px;
-      cursor: ew-resize;
+      cursor: ew-resize; */
       background: #fff;
-      box-shadow: -405px 0 0 400px #605e5c;
-      border-radius: 50%;
+      /* box-shadow: -405px 0 0 400px #605e5c;
+      border-radius: 50%; */
     }
   }
 </style>

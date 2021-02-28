@@ -167,10 +167,6 @@ def cluster(similarity_percentage="0.96"):
     for key in similarity_sets:
         similarities_arr.append(similarity_sets[key])
 
-    # print("#########################################")
-    # print("already_checked = %s" % already_checked)
-    # print("similarity_sets = %s" % similarity_sets)
-    # print("#########################################")
     log_message('ready to json.dumps(similarities_arr \n')
     print(json.dumps(similarities_arr))
     with open('similarities.json', 'w') as out:

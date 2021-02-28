@@ -19,7 +19,8 @@
     "svelte-build": "rollup -c",
     "svelte-dev": "rollup -c -w",
     "svelte-start": "sirv public",
-    "start-nodemon": "nodemon --exec electron ."
+    "start-nodemon": "nodemon --exec electron .",
+    "dev": "concurrently \"rollup -c -w\" \"nodemon --exec electron .\""
   },
   "keywords": [],
   "author": "Abdul Aliyev",

@@ -1,4 +1,4 @@
-// const colors = require("tailwindcss/colors");
+const colors = require("tailwindcss/colors");
 
 // tailwind.config.js
 const isProduction = !process.env.ROLLUP_WATCH; // or some other env var like NODE_ENV
@@ -37,19 +37,11 @@ module.exports = {
       textOpacity: ["dark"],
     },
   },
-  // theme: {
-  //   colors: {
-  //     primary: colors.indigo,
-  //     secondary: colors.yellow,
-  //     neutral: colors.gray,
-  //   },
-  // },
-  // theme: {
-  //   height: {
-  //    sm: '8px',
-  //    md: '16px',
-  //    lg: '24px',
-  //    xl: '48px',
-  //   }
-  // }
+  theme: {
+    colors: {
+      primary: colors.blue,
+      secondary: colors.yellow,
+      neutral: colors.gray,
+    },
+  },
 };
