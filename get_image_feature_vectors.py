@@ -42,7 +42,6 @@ def get_image_feature_vectors(basePath='/Users/abdulaliyev/web-projects/del/imgs
 
     # Loops through all images in a local folder assuming gif
     for i, filename in enumerate(glob.glob(basePath + "/**/*.jpg", recursive=True)):
-        print(f"filename = {filename}")
         # Loads and pre-process the image
         img = load_img(filename)
         # Calculate the image feature vector of the img
@@ -64,6 +63,7 @@ def get_image_feature_vectors(basePath='/Users/abdulaliyev/web-projects/del/imgs
 
         # Saves the 'feature_set' to a text file
         np.savetxt(out_path, feature_set, delimiter=',')
+        print(f"file_vector_completed::{filename}")
 
     # Writes the 'named_nearest_neighbors' to a json file
     with open('mapper.json', 'w') as out:

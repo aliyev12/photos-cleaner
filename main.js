@@ -1,7 +1,3 @@
-// require("electron-reload")(__dirname, {
-//   electron: path.join(__dirname, "node_modules", ".bin", "electron"),
-//   awaitWriteFinish: true,
-// });
 const fs = require("fs");
 const path = require("path");
 const Similarities = require("./js/Similarities");
@@ -17,6 +13,11 @@ const {
   dialog,
   globalShortcut,
 } = require("electron");
+
+require("electron-reload")(__dirname, {
+  electron: path.join(__dirname, "node_modules", ".bin", "electron"),
+  awaitWriteFinish: true,
+});
 
 // Set env
 process.env.NODE_ENV = "development";
@@ -72,6 +73,11 @@ app.on("ready", () => {
 
   //Setup Message Listeners
   ipcMain.on("runsimilarities", (e, rootFolderPath, similarityPercentage) => {
+    mainWindow.webContents.send("status_message", {
+      msg: "Similarities analysis has been launched",
+      status: "start_similarities_analysis",
+      time: Date.now(),
+    });
     const similarities = new Similarities(
       mainWindow,
       rootFolderPath,
@@ -81,7 +87,6 @@ app.on("ready", () => {
   });
 
   ipcMain.on("select-dirs", async (event, arg) => {
-    console.log("####$$$$ >>>> received select-dirs ipc in mail.js");
     const result = await dialog.showOpenDialog(mainWindow, {
       properties: ["openDirectory"],
     });
@@ -91,8 +96,6 @@ app.on("ready", () => {
         result.filePaths[0]
       );
     }
-
-    console.log("directories selected", result.filePaths);
   });
 
   mainWindow.on("closed", () => (mainWindow = null));

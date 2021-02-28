@@ -21,6 +21,11 @@ class Similarities {
   }
 
   getImageFeatureVectors() {
+    this.window.webContents.send("status_message", {
+      msg: "Start getting feature vectors of images",
+      status: "process_update",
+      time: Date.now(),
+    });
     const getVectorsPath = path.join(rootPath, "get_image_feature_vectors.py");
     var dataToSend;
     // console.log("this.rootFolderPath = ", this.rootFolderPath);
@@ -32,9 +37,17 @@ class Similarities {
       // "/Users/abdulaliyev/web-projects/del/imgs/6",
     ]);
     // collect data from script
-    python.stdout.on("data", function (data) {
+    python.stdout.on("data", (data) => {
       dataToSend = data.toString();
-      // console.log("data = ", data);
+      const [command, vectorizedImagePath] = data.toString().split("::");
+      if (command === "file_vector_completed") {
+        this.window.webContents.send("status_message", {
+          msg: `Image: ${vectorizedImagePath}`,
+          status: "process_update",
+          time: Date.now(),
+        });
+      }
+      console.log("data.toString() = ", data.toString());
     });
     python.on("error", (err) => {
       console.log("err = ", err);
@@ -69,6 +82,11 @@ class Similarities {
           "similarities_analysis_completed",
           similaritiesData
         );
+        this.window.webContents.send("status_message", {
+          msg: "Similarities analysis has finished.",
+          status: "end_similarities_analysis",
+          time: Date.now(),
+        });
         this.similarities = similaritiesData;
       }
     });

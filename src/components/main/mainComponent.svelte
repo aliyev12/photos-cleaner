@@ -10,6 +10,7 @@
   } from "../../store.js";
 
   import Spinner from "../utils/spinner.svelte";
+  import StatusMessages from "./StatusMessages.svelte";
   // import { createEventDispatcher } from "svelte";
   // const dispatch = createEventDispatcher();
 
@@ -129,6 +130,8 @@
     <Spinner />
   {/if}
 
+  <StatusMessages />
+
   <div class="m-5 mt-12">
     {#each $similarities as groupOfImages, i}
       <div
@@ -147,7 +150,6 @@
       </div>
     {/each}
   </div>
-  <h1 class="fun">FUN</h1>
 </main>
 
 <style>

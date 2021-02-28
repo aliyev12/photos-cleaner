@@ -15,3 +15,13 @@ cluster fired  ...  in cluster and similarity_percentage provided is = 0.96
 cluster fired  ...  ready to json.dumps(similarities_arr 
 in cluster and similarity_percentage provided is = 0.96
 cluster fired  ...  ready to json.dumps(similarities_arr 
+in cluster and similarity_percentage provided is = 0.96
+cluster fired  ...  ready to json.dumps(similarities_arr 
+in cluster and similarity_percentage provided is = 0.96
+cluster fired  ...  ready to json.dumps(similarities_arr 
+in cluster and similarity_percentage provided is = 0.96
+cluster fired  ...  ready to json.dumps(similarities_arr 
+in cluster and similarity_percentage provided is = 0.96
+cluster fired  ...  ready to json.dumps(similarities_arr 
+in cluster and similarity_percentage provided is = 0.96
+cluster fired  ...  ready to json.dumps(similarities_arr 
