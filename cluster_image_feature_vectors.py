@@ -66,13 +66,6 @@ def cluster(similarity_percentage="0.96"):
     similarity_percentage = Decimal(similarity_percentage)
     log_message(
         f"in cluster and similarity_percentage provided is = {similarity_percentage}\n")
-
-    file_object = open('logs.txt', 'a')
-    # Append 'hello' at the end of file
-    file_object.write('cluster fired  ...  ')
-    # Close the file
-    file_object.close()
-    # start_time = time.time()
     # Defining data structures as empty dict
     file_index_to_file_name = {}
     file_index_to_file_vector = {}

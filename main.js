@@ -83,7 +83,8 @@ app.on("ready", () => {
       rootFolderPath,
       similarityPercentage
     );
-    similarities.getImageFeatureVectors();
+    // similarities.getImageFeatureVectors();
+    similarities.compareImagesUsingSSIM();
   });
 
   ipcMain.on("select-dirs", async (event, arg) => {

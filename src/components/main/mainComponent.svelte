@@ -9,8 +9,8 @@
     similarityPercentage,
   } from "../../store.js";
 
-  import Spinner from "../utils/spinner.svelte";
   import StatusMessages from "./StatusMessages.svelte";
+  import Progress from "./Progress.svelte";
   // import { createEventDispatcher } from "svelte";
   // const dispatch = createEventDispatcher();
 
@@ -127,9 +127,8 @@
   </form>
 
   {#if $similaritiesStatus === SimilaritiesStatuses.loading}
-    <Spinner />
+    <Progress />
   {/if}
-
   <StatusMessages />
 
   <div class="m-5 mt-12">

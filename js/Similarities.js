@@ -91,6 +91,82 @@ class Similarities {
       }
     });
   }
+
+  compareImagesUsingSSIM() {
+    let results = [];
+    this.window.webContents.send("status_message", {
+      msg: "Start getting feature vectors of images",
+      status: "process_update",
+      time: Date.now(),
+    });
+    const compareUsingSsimPath = path.join(
+      rootPath,
+      "py_src",
+      "compare_using_ssim.py"
+    );
+    const python = spawn(pyPath, [
+      "-u",
+      compareUsingSsimPath,
+      this.rootFolderPath,
+      this.similarityPercentage,
+    ]);
+
+    python.stdout.on("data", (dataResponse) => {
+      console.log("dataResponse.toString() = ", dataResponse.toString());
+      const dataItems = dataResponse
+        .toString()
+        .split("\n")
+        .filter((x) => x !== "");
+      console.log("dataItems = ", dataItems);
+      dataItems.forEach((dataItem) => {
+        const [command, data] = dataItem.split("::");
+        if (command === "compare_images_using_ssim__results") {
+          results = JSON.parse(data);
+          this.window.webContents.send("end_progress");
+          this.window.webContents.send("status_message", {
+            msg: `end_progress`,
+            status: "process_update",
+            time: Date.now(),
+          });
+        } else if (command === "compare_images_using_ssim__all_images_length") {
+          this.window.webContents.send("status_message", {
+            msg: `Going over each images and comparing to the rest`,
+            status: "process_update",
+            time: Date.now(),
+          });
+          this.window.webContents.send("start_progress", data);
+          this.window.webContents.send("status_message", {
+            msg: `start_progress and all_images length: ${data}`,
+            status: "process_update",
+            time: Date.now(),
+          });
+        } else if (command === "compare_images_using_ssim__index_completed") {
+          this.window.webContents.send("completed_item_index", data);
+          this.window.webContents.send("status_message", {
+            msg: `completed_item_index: ${data}`,
+            status: "process_update",
+            time: Date.now(),
+          });
+        }
+      });
+    });
+    python.on("error", (err) => {
+      this.window.webContents.send("status_message", {
+        msg: `Error: ${JSON.stringify(err)}`,
+        status: "process_update",
+        time: Date.now(),
+      });
+    });
+    // in close event we are sure that stream from child process is closed
+    python.on("close", (code) => {
+      this.window.webContents.send("similarities_analysis_completed", results);
+      this.window.webContents.send("status_message", {
+        msg: "Similarities analysis has finished.",
+        status: "end_similarities_analysis",
+        time: Date.now(),
+      });
+    });
+  }
 }
 
 module.exports = Similarities;
