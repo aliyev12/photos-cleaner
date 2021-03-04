@@ -7,15 +7,11 @@ export const SimilaritiesStatuses = {
 };
 
 export const mementoes = writable([]);
-export const similarities = writable(dummyData3());
+export const similarities = writable([]);
 export const statusMessages = writable([]);
 export const similarityPercentage = writable(96);
 export const rootFolderPath = writable("hi");
 export const similaritiesStatus = writable(SimilaritiesStatuses.initial);
-
-export const progressInit = writable(false);
-export const progressTotal = writable(0);
-export const progressCompleted = writable(0);
 
 function dummyData() {
   return [
