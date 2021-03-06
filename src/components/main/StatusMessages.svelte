@@ -1,11 +1,21 @@
 <script>
   const { ipcRenderer } = require("electron");
+  import { onMount } from "svelte";
   import moment from "moment";
 
   import { statusMessages } from "../../store.js";
 
+  function scrollToBottom() {
+    const statusMsgScrollContainer = document.getElementById(
+      "status-msg-scroll-container"
+    );
+    if (statusMsgScrollContainer) {
+      statusMsgScrollContainer.scrollTop =
+        statusMsgScrollContainer.scrollHeight;
+    }
+  }
+
   ipcRenderer.on("status_message", (e, newStatusMsg) => {
-    // "start_similarities_analysis"
     if (newStatusMsg.status === "end_similarities_analysis") {
       statusMessages.update((currentStatusMessages) => {
         return [...currentStatusMessages, newStatusMsg];
@@ -17,6 +27,7 @@
       statusMessages.update((currentStatusMessages) => {
         return [...currentStatusMessages, newStatusMsg];
       });
+      scrollToBottom();
     }
   });
 
@@ -28,6 +39,7 @@
     <h2 class="text-4xl mb-6">Status Updates</h2>
     <div class="rounded-lg bg-neutral-900 min-h-10 w-auto p-8 max-h-96 ">
       <div
+        id="status-msg-scroll-container"
         class="flex flex-col text-2xl items-center justify-start  overflow-y-auto max-h-80"
       >
         {#each $statusMessages as statusMessage}
